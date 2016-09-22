@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="24px"
+    android:paddingLeft="24px"
+    android:paddingRight="24px"
+    android:paddingTop="24px"
+    tools:context="onem2m.seslab.sejong.ae_testing.ui.MainActivity" >
+
+    <Button
+        android:id="@+id/mobiusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mobius" />
+
+   <TextView
+    android:id="@+id/deviceIPAddress"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/mobiusButton"
+    android:layout_below="@+id/mobiusButton"
+    android:layout_marginTop="44dp"
+    android:text="Device IP Address" />
+
+    <TextView
+        android:id="@+id/mobiusGetResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mobiusButton"
+        android:layout_below="@+id/deviceIPAddress"
+        android:layout_marginTop="44dp"
+        android:text="CSE Query Information" />
+
+</RelativeLayout>
