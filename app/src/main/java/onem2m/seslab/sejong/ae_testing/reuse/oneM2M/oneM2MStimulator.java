@@ -1,51 +1,61 @@
 package onem2m.seslab.sejong.ae_testing.reuse.oneM2M;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xml.sax.helpers.DefaultHandler;
+
 import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.domain.AE;
 import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
-
-/**
- * Created by Blossom on 2016-09-21.
- */
+import onem2m.seslab.sejong.ae_testing.reuse.network.HttpRequester;
+import onem2m.seslab.sejong.ae_testing.reuse.network.oneM2MRequest;
 
 public class oneM2MStimulator {
 
-    private String uri;
-    private NanoHTTPD.Method method;
-    private Map<String, String> header;
-    private Map<String, String> parameters;
-    private Map<String, String> files;
+    private NanoHTTPD.IHTTPSession session;
 
-    public oneM2MStimulator(String uri, NanoHTTPD.Method method, Map<String, String> header, Map<String, String> parameters, Map<String, String> files) {
-        this.uri = uri;
-        this.method = method;
-        this.header = header;
-        this.parameters = parameters;
-        this.files = files;
+    public oneM2MStimulator(NanoHTTPD.IHTTPSession session) {
+        this.session = session;
     }
 
     public void startTesting( ) {
-        String contentType = null, resourceType = "2";
-
         // Parsing the resourceType from Content_Type header
+        // TS-0009 : 6.4.3 Content-Type
+        // TS-0004 : 6.3.4.2.1 m2m:resourceType
 
+        /**** For checking the header lists
+         Iterator<String> keys = header.keySet().iterator();
+         while (keys.hasNext()) {
+         String key = keys.next();
+         Log.i("ValueTest", key);
+         } ****/
 
+        String contentTypeHeaderValue, resourceType, Accept;
+        NanoHTTPD.Method method;
 
+        Map<String, String> header = session.getHeaders();
 
+        // Accept
+        Accept = header.get("accept");
+
+        // Content-Type
+        contentTypeHeaderValue = header.get("content-type");
+        contentTypeHeaderValue = contentTypeHeaderValue.replaceAll("\\p{Space}", "");
+        String splitedString[] = contentTypeHeaderValue.split(";");
+        resourceType = splitedString[1].split("=")[1];
+
+        // Method
+        method = session.getMethod();
 
         switch(resourceType) {
             case "1" : // accessControlPolicy
                 break;
 
             case "2" : // AE
-                oneM2M AE = new AE(uri, method, header, parameters, files);
-
-
-
-
-
+                oneM2M AE = new AE(session);
+                Mca(AE, Accept, method);
                 break;
 
             case "3" : // container
@@ -66,8 +76,49 @@ public class oneM2MStimulator {
             default:
 
         }
-
-        // Networking...
-
     }
+
+    // AE send the specific header value and body to CSE
+    public void Mca(oneM2M resource, String Accept, NanoHTTPD.Method method) {
+
+        oneM2MRequest oneM2MRequestor = new oneM2MRequest();
+
+        if(Accept.equals("application/xml")) {
+            oneM2MRequestor.XML(XMLResponseListener, method);
+        } else if(Accept.equals("application/json")) {
+            try {
+                oneM2MRequestor.JSON(JSONResponseListener, method);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    HttpRequester.NetworkResponseListenerXML XMLResponseListener = new HttpRequester.NetworkResponseListenerXML() {
+
+        // Creating the specific domain.
+
+        @Override
+        public void onSuccess(DefaultHandler jsonObject) {
+
+        }
+
+        @Override
+        public void onFail(DefaultHandler jsonObject, int errorCode) {
+
+        }
+    };
+
+    HttpRequester.NetworkResponseListenerJSON JSONResponseListener = new HttpRequester.NetworkResponseListenerJSON() {
+
+        // Creating the specific domain.
+
+        @Override
+        public void onSuccess(JSONObject jsonObject) {
+
+        }
+
+        @Override
+        public void onFail(JSONObject jsonObject, int errorCode) { }
+    };
 }

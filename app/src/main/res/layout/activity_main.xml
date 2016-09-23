@@ -14,22 +14,13 @@
         android:layout_height="wrap_content"
         android:text="Mobius" />
 
-   <TextView
-    android:id="@+id/deviceIPAddress"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignLeft="@+id/mobiusButton"
-    android:layout_below="@+id/mobiusButton"
-    android:layout_marginTop="44dp"
-    android:text="Device IP Address" />
-
     <TextView
-        android:id="@+id/mobiusGetResult"
+        android:id="@+id/deviceIPAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/mobiusButton"
-        android:layout_below="@+id/deviceIPAddress"
+        android:layout_below="@+id/mobiusButton"
         android:layout_marginTop="44dp"
-        android:text="CSE Query Information" />
+        android:text="Device IP Address" />
 
 </RelativeLayout>

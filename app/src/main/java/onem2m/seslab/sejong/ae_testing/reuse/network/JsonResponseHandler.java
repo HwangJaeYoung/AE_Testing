@@ -6,25 +6,24 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class JsonResponseHandler extends JsonHttpResponseHandler {
-    private HttpRequester.NetworkResponseListener networkResponseListener;
- 
+    private HttpRequester.NetworkResponseListenerJSON networkResponseListener;
 
-    public JsonResponseHandler(HttpRequester.NetworkResponseListener aNetworkResponseListener) {
+    public JsonResponseHandler(HttpRequester.NetworkResponseListenerJSON aNetworkResponseListener) {
         this.networkResponseListener = aNetworkResponseListener;
     }
 
     // 여기가 콜백 메소드 부분이다.
     // Fired when a request returns successfully
-	@Override
-	public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-		this.networkResponseListener.onSuccess(response);
-		
-	}
+    @Override
+    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+        this.networkResponseListener.onSuccess(response);
+
+    }
 
     // Returns when request failed
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-    	if(statusCode == 0) {
+        if(statusCode == 0) {
             this.networkResponseListener.onFail(new JSONObject(), 8);
         }
         else { }
