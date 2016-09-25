@@ -16,11 +16,11 @@ public class XMLResponseHandler extends SaxAsyncHttpResponseHandler<HttpRequeste
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML) {
-        Log.i("xmlTesting", "onSuccess");
+        this.networkResponseListener.onSuccess(statusCode, headers, networkResponseListenerXML);
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML) {
-        Log.i("xmlTesting", "onFail");
+        this.networkResponseListener.onFail(statusCode, headers, networkResponseListenerXML);
     }
 }

@@ -16,7 +16,7 @@ import onem2m.seslab.sejong.ae_testing.reuse.oneM2M.oneM2MStimulator;
 
 public class MainActivity extends Activity implements ViewForMainActivity.Controller {
 
-	private static final int PORT = 8080;
+	private static final int PORT = 8080; // Android server port
 
 	private ViewForMainActivity view;
 	private WebServer server;

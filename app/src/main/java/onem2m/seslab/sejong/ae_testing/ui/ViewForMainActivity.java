@@ -11,7 +11,6 @@ import onem2m.seslab.sejong.ae_testing.reuse.mvc.activity.AbstractViewForActivit
 
 public class ViewForMainActivity extends AbstractViewForActivity {
 
-    private Button mobiusButton;
     private TextView deviceIPAddress;
     private Controller controller;
 
@@ -27,7 +26,6 @@ public class ViewForMainActivity extends AbstractViewForActivity {
 
     @Override
     protected void initViews() {
-        mobiusButton = (Button)findViewById(R.id.mobiusButton);
         deviceIPAddress = (TextView)findViewById(R.id.deviceIPAddress);
     }
 

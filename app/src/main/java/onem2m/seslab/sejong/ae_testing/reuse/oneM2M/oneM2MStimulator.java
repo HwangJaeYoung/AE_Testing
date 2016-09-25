@@ -7,8 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.Iterator;
 import java.util.Map;
 
+import cz.msebera.android.httpclient.Header;
 import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.domain.AE;
 import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
@@ -30,13 +32,6 @@ public class oneM2MStimulator {
         // Parsing the resourceType from Content_Type header
         // TS-0009 : 6.4.3 Content-Type
         // TS-0004 : 6.3.4.2.1 m2m:resourceType
-
-        /**** For checking the header lists
-         Iterator<String> keys = header.keySet().iterator();
-         while (keys.hasNext()) {
-         String key = keys.next();
-         Log.i("ValueTest", key);
-         } ****/
 
         String contentTypeHeaderValue, resourceType, Accept;
         NanoHTTPD.Method method;
@@ -107,28 +102,48 @@ public class oneM2MStimulator {
         // Creating the specific domain.
 
         @Override
-        public void onSuccess(DefaultHandler jsonObject) {
-            Log.i("Testing", "XML Success");
+        public void onSuccess(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML) {
+            Log.i("Testing", "XML onSuccess");
+
+            Map<String, String> map = networkResponseListenerXML.getXmlResponse();
+
+            Iterator<String> keys = map.keySet().iterator();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                Log.i("Testing", "Key : " + key + ", " + "Value : " + map.get(key));
+            }
         }
 
         @Override
-        public void onFail(DefaultHandler jsonObject, int errorCode) {
-            Log.i("Testing", "XML Fail");
+        public void onFail(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML) {
+            Log.i("Testing", "XML onFail");
+
+            Map<String, String> map = networkResponseListenerXML.getXmlResponse();
+
+            Iterator<String> keys = map.keySet().iterator();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                Log.i("Testing", "Key : " + key + ", " + "Value : " + map.get(key));
+            }
         }
     };
 
     HttpRequester.NetworkResponseListenerJSON JSONResponseListener = new HttpRequester.NetworkResponseListenerJSON() {
 
-        // Creating the specific domain.
+        // Creating the responsePrimitive domain.
+
         @Override
-        public void onSuccess(JSONObject jsonObject) {
+        public void onSuccess(int statusCode, Header[] headers, JSONObject jsonObject) {
+            Log.i("Testing", "JSON onSuccess");
             Log.i("Testing", jsonObject.toString());
         }
 
         @Override
-        public void onFail(JSONObject jsonObject) {
+        public void onFail(int statusCode, Header[] headers, JSONObject jsonObject) {
+            Log.i("Testing", "JSON onFail");
             Log.i("Testing", jsonObject.toString());
-
         }
     };
 }

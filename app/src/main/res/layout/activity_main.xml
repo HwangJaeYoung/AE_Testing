@@ -8,12 +8,6 @@
     android:paddingTop="24px"
     tools:context="onem2m.seslab.sejong.ae_testing.ui.MainActivity" >
 
-    <Button
-        android:id="@+id/mobiusButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mobius" />
-
     <TextView
         android:id="@+id/deviceIPAddress"
         android:layout_width="wrap_content"

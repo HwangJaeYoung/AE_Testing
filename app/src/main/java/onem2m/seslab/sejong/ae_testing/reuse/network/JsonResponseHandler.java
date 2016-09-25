@@ -15,18 +15,16 @@ public class JsonResponseHandler extends JsonHttpResponseHandler {
 
     }
 
-    // ?ш린媛 肄쒕갚 硫붿냼??遺遺꾩씠??
+    // 여기가 콜백 메소드 부분이다.
     // Fired when a request returns successfully
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        this.networkResponseListener.onSuccess(response);
+        this.networkResponseListener.onSuccess(statusCode, headers, response);
     }
 
     // Returns when request failed
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-        Log.i("testing", "" + statusCode);
-
-        this.networkResponseListener.onFail(errorResponse);
+        this.networkResponseListener.onFail(statusCode, headers, errorResponse);
     }
 }

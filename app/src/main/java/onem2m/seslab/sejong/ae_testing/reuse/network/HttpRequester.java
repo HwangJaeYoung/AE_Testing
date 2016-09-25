@@ -10,10 +10,14 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
 import org.json.JSONObject;
+import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
+import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
@@ -66,12 +70,21 @@ public class HttpRequester {
         Log.i("request", "Url: "+url);
         Log.i("request", "Parms: " + params.toString());
 
-        getClient().addHeader("Accept", "application/json");
-        getClient().addHeader("X-M2M-RI", "12345") ;
-        getClient().addHeader("X-M2M-Origin", "S0.2.481.1.1.232466");
+        Log.i("xmlTesting", resource.getOneM2MBody());
 
-        if (anIsPost)
-            getClient().post(getAbsoluteUrl(url), params, responseHandler);
+        if (anIsPost) {
+            StringEntity oneM2MBody = null;
+
+            try {
+                oneM2MBody = new StringEntity(resource.getOneM2MBody());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            Log.i("xmlTesting", requestPrimitive.getContent_Type());
+
+            getClient().post(context, getAbsoluteUrl(url), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
+        }
         else
             getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }
@@ -88,14 +101,33 @@ public class HttpRequester {
         return client;
     }
 
-    // 泥섎━瑜??꾪빐 怨듯넻?곸씤 洹쒖빟??以寃껋씠??
+    // 처리를 위해 공통적인 규약을 준것이다.
     public interface NetworkResponseListenerJSON {
-        void onSuccess(JSONObject jsonObject);
-        void onFail(JSONObject jsonObject);
+        void onSuccess(int statusCode, Header[] headers, JSONObject jsonObject);
+        void onFail(int statusCode, Header[] headers, JSONObject jsonObject);
     }
 
     public static abstract class NetworkResponseListenerXML extends DefaultHandler {
-        public abstract void onSuccess(DefaultHandler jsonObject);
-        public abstract void onFail(DefaultHandler jsonObject, int errorCode);
+
+        private String startElement;
+        private Map<String, String > xmlResponse = new HashMap<String, String>();
+
+        public abstract void onSuccess(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML);
+        public abstract void onFail(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML);
+
+        public void startElement(String namespaceURI, String localName, String rawName, Attributes atts) {
+            startElement = rawName;
+        }
+
+        public void characters(char[] data, int off, int length) {
+            if (length > 0 && data[0] != '\n') {
+                xmlResponse.put(startElement, new String(data, off, length));
+                Log.i("xmlTesting", new String(data, off, length));
+            }
+        }
+
+        public Map<String, String > getXmlResponse() {
+            return xmlResponse;
+        }
     }
 }
