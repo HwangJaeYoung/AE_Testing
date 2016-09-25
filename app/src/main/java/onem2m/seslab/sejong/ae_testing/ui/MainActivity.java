@@ -10,6 +10,8 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.reuse.oneM2M.oneM2MStimulator;
@@ -80,6 +82,15 @@ public class MainActivity extends Activity implements ViewForMainActivity.Contro
 
 		@Override
 		public Response serve(IHTTPSession session) {
+
+			Map<String, String> map = session.getHeaders();
+
+			Iterator<String> keys = map.keySet().iterator();
+
+			/* while( keys.hasNext() ){
+				String key = keys.next();
+				Log.i("Testing", "Key : " + key + ", " + "Value : " + map.get(key));
+			} */
 
 			// Calling the oneM2M Stimulator
 			oneM2MStimulator oneM2MTest = new oneM2MStimulator(session, getApplicationContext());

@@ -118,7 +118,7 @@ public class oneM2MStimulator {
         @Override
         public void onFail(int statusCode, Header[] headers, HttpRequester.NetworkResponseListenerXML networkResponseListenerXML) {
             Log.i("Testing", "XML onFail");
-
+            Log.i("Testing", ""+ statusCode);
             Map<String, String> map = networkResponseListenerXML.getXmlResponse();
 
             Iterator<String> keys = map.keySet().iterator();

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.conn.ConnectTimeoutException;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
@@ -46,9 +47,8 @@ public class HttpRequester {
     }
 
     public static void requestJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource, boolean anIsPost) {
-        Log.i("request", "JSON");
-        Log.i("request", "Url: "+url);
-        Log.i("request", "Parms: " + params.toString());
+
+        getClient().setTimeout(3000);
 
         if (anIsPost) {
             StringEntity oneM2MBody = null;
@@ -59,18 +59,15 @@ public class HttpRequester {
                 e.printStackTrace();
             }
 
-            getClient().post(context, getAbsoluteUrl(url), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
-        }
-        else
+            Log.i("Testing", resource.getOneM2MBody());
+            getClient().post(context, requestPrimitive.getTargetAddress(), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
+        } else
             getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }
 
     public static void requestXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource, boolean anIsPost) {
-        Log.i("request", "XML");
-        Log.i("request", "Url: "+url);
-        Log.i("request", "Parms: " + params.toString());
 
-        Log.i("xmlTesting", resource.getOneM2MBody());
+        getClient().setTimeout(3000);
 
         if (anIsPost) {
             StringEntity oneM2MBody = null;
@@ -81,11 +78,9 @@ public class HttpRequester {
                 e.printStackTrace();
             }
 
-            Log.i("xmlTesting", requestPrimitive.getContent_Type());
-
-            getClient().post(context, getAbsoluteUrl(url), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
-        }
-        else
+            Log.i("Testing", resource.getOneM2MBody());
+            getClient().post(context, requestPrimitive.getTargetAddress(), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
+        } else
             getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }
 
@@ -122,7 +117,6 @@ public class HttpRequester {
         public void characters(char[] data, int off, int length) {
             if (length > 0 && data[0] != '\n') {
                 xmlResponse.put(startElement, new String(data, off, length));
-                Log.i("xmlTesting", new String(data, off, length));
             }
         }
 

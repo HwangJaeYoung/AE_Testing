@@ -13,14 +13,15 @@ import fi.iki.elonen.NanoHTTPD;
 public class RequestPrimitive {
 
     // Header Key
+    private static final String KEY_HEADER_TARGT_ADDRESSS = "target-address";
     private static final String KEY_HEADER_ACCEPT = "accept";
     private static final String KEY_HEADER_CONTENT_TYPE = "content-type";
-    private static final String KEY_HEADER_X_M2M_Origin = "x-m2m-origin";
+    private static final String KEY_HEADER_X_M2M_ORIGIN = "x-m2m-origin";
     private static final String KEY_HEADER_X_M2M_RI = "x-m2m-ri";
 
     // Header Value
     private NanoHTTPD.Method Method;
-    private String uri;
+    private String targetAddress;
     private String ACCEPT;
     private String Content_Type;
     private String X_M2M_Origin;
@@ -28,19 +29,19 @@ public class RequestPrimitive {
 
     public RequestPrimitive(Map<String, String> header, NanoHTTPD.Method method) {
         Method = method;
+        targetAddress = header.get(KEY_HEADER_TARGT_ADDRESSS);
         ACCEPT = header.get(KEY_HEADER_ACCEPT);
-        X_M2M_Origin = header.get(KEY_HEADER_X_M2M_Origin);
+        X_M2M_Origin = header.get(KEY_HEADER_X_M2M_ORIGIN);
         X_M2M_RI = header.get(KEY_HEADER_X_M2M_RI);
         Content_Type = header.get(KEY_HEADER_CONTENT_TYPE);
+
     }
 
     public NanoHTTPD.Method getMethod(){
         return Method;
     }
 
-    public String getUri() {
-        return uri;
-    }
+    public String getTargetAddress() { return targetAddress; }
 
     public String getX_M2M_RI() {
         return X_M2M_RI;
