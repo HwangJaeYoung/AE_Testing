@@ -5,11 +5,5 @@ package onem2m.seslab.sejong.ae_testing.domain;
  */
 
 public interface oneM2M {
-    String getOneM2MBody(); // inflate
-    String getUri();
-    String getX_M2M_RI();
-    String getACCEPT();
-    String getContent_Type();
-    String getX_M2M_Origin();
-    int getHeaderLength();
+    String getOneM2MBody();
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.domain.AE;
 import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
+import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.reuse.network.HttpRequester;
 import onem2m.seslab.sejong.ae_testing.reuse.network.oneM2MRequest;
 
@@ -59,8 +60,10 @@ public class oneM2MStimulator {
                 break;
 
             case "2" : // AE
+
+                RequestPrimitive reqPrimitive = new RequestPrimitive(header, method);
                 oneM2M AE = new AE(session);
-                Mca(AE, Accept, method);
+                Mca(reqPrimitive, AE, Accept, method);
                 break;
 
             case "3" : // container
@@ -84,15 +87,15 @@ public class oneM2MStimulator {
     }
 
     // AE send the specific header value and body to CSE
-    public void Mca(oneM2M resource, String Accept, NanoHTTPD.Method method) {
+    public void Mca(RequestPrimitive requestPrimitive, oneM2M resource, String Accept, NanoHTTPD.Method method) {
 
         oneM2MRequest oneM2MRequestor = new oneM2MRequest();
 
         if(Accept.equals("application/xml")) {
-            oneM2MRequestor.XML(context, XMLResponseListener, method, resource);
+            oneM2MRequestor.XML(context, XMLResponseListener, method, requestPrimitive, resource);
         } else if(Accept.equals("application/json")) {
             try {
-                oneM2MRequestor.JSON(context, JSONResponseListener, method, resource);
+                oneM2MRequestor.JSON(context, JSONResponseListener, method, requestPrimitive, resource);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

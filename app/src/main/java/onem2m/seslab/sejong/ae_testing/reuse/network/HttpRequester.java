@@ -14,9 +14,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.UnsupportedEncodingException;
 
-import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
-import cz.msebera.android.httpclient.message.BasicHeader;
+import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
 
 public class HttpRequester {
@@ -26,39 +25,26 @@ public class HttpRequester {
     public static AsyncHttpClient syncHttpClient= new SyncHttpClient();
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static void postJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, oneM2M resource) {
-        requestJSON(context, url, params, responseHandler, resource, true);
+    public static void postJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource) {
+        requestJSON(context, url, params, responseHandler, requestPrimitive, resource, true);
     }
 
-    public static void getJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, oneM2M resource) {
-        requestJSON(context, url, params, responseHandler, resource, false);
+    public static void getJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource) {
+        requestJSON(context, url, params, responseHandler, requestPrimitive, resource, false);
     }
 
-    public static void postXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, oneM2M resource) {
-        requestXML(context, url, params, responseHandler, resource, true);
+    public static void postXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource) {
+        requestXML(context, url, params, responseHandler, requestPrimitive, resource, true);
     }
 
-    public static void getXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, oneM2M resource) {
-        requestXML(context, url, params, responseHandler, resource,  false);
+    public static void getXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource) {
+        requestXML(context, url, params, responseHandler, requestPrimitive, resource,  false);
     }
 
-    public static void requestJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, oneM2M resource, boolean anIsPost) {
+    public static void requestJSON(Context context, String url, RequestParams params, JsonHttpResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource, boolean anIsPost) {
         Log.i("request", "JSON");
         Log.i("request", "Url: "+url);
         Log.i("request", "Parms: " + params.toString());
-
-        Header[] headers = new Header[resource.getHeaderLength()]; int i = 0;
-
-        Log.i("testing", resource.getACCEPT());
-
-        if(resource.getX_M2M_RI() != null)
-            headers[i++] = new BasicHeader("X-M2M-RI", resource.getX_M2M_RI());
-        if(resource.getACCEPT() != null)
-            headers[i++] = new BasicHeader("Accept", resource.getACCEPT());
-        if(resource.getX_M2M_Origin() != null)
-            headers[i++] = new BasicHeader("X-M2M-Origin", resource.getX_M2M_Origin());
-        if(resource.getContent_Type() != null)
-            headers[i++] = new BasicHeader("Content-Type", resource.getContent_Type());
 
         if (anIsPost) {
             StringEntity oneM2MBody = null;
@@ -69,13 +55,13 @@ public class HttpRequester {
                 e.printStackTrace();
             }
 
-            getClient().post(context, getAbsoluteUrl(url), headers, oneM2MBody, resource.getContent_Type(), responseHandler);
+            getClient().post(context, getAbsoluteUrl(url), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
         }
         else
             getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }
 
-    public static void requestXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, oneM2M resource, boolean anIsPost) {
+    public static void requestXML(Context context, String url, RequestParams params, XMLResponseHandler responseHandler, RequestPrimitive requestPrimitive, oneM2M resource, boolean anIsPost) {
         Log.i("request", "XML");
         Log.i("request", "Url: "+url);
         Log.i("request", "Parms: " + params.toString());
