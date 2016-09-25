@@ -1,5 +1,8 @@
 package onem2m.seslab.sejong.ae_testing.reuse.oneM2M;
 
+import android.content.Context;
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.helpers.DefaultHandler;
@@ -15,9 +18,11 @@ import onem2m.seslab.sejong.ae_testing.reuse.network.oneM2MRequest;
 public class oneM2MStimulator {
 
     private NanoHTTPD.IHTTPSession session;
+    private Context context;
 
-    public oneM2MStimulator(NanoHTTPD.IHTTPSession session) {
+    public oneM2MStimulator(NanoHTTPD.IHTTPSession session, Context context) {
         this.session = session;
+        this.context = context;
     }
 
     public void startTesting( ) {
@@ -84,10 +89,10 @@ public class oneM2MStimulator {
         oneM2MRequest oneM2MRequestor = new oneM2MRequest();
 
         if(Accept.equals("application/xml")) {
-            oneM2MRequestor.XML(XMLResponseListener, method);
+            oneM2MRequestor.XML(context, XMLResponseListener, method, resource);
         } else if(Accept.equals("application/json")) {
             try {
-                oneM2MRequestor.JSON(JSONResponseListener, method);
+                oneM2MRequestor.JSON(context, JSONResponseListener, method, resource);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -100,25 +105,27 @@ public class oneM2MStimulator {
 
         @Override
         public void onSuccess(DefaultHandler jsonObject) {
-
+            Log.i("Testing", "XML Success");
         }
 
         @Override
         public void onFail(DefaultHandler jsonObject, int errorCode) {
-
+            Log.i("Testing", "XML Fail");
         }
     };
 
     HttpRequester.NetworkResponseListenerJSON JSONResponseListener = new HttpRequester.NetworkResponseListenerJSON() {
 
         // Creating the specific domain.
-
         @Override
         public void onSuccess(JSONObject jsonObject) {
-
+            Log.i("Testing", jsonObject.toString());
         }
 
         @Override
-        public void onFail(JSONObject jsonObject, int errorCode) { }
+        public void onFail(JSONObject jsonObject) {
+            Log.i("Testing", jsonObject.toString());
+
+        }
     };
 }

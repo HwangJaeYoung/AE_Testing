@@ -82,7 +82,7 @@ public class MainActivity extends Activity implements ViewForMainActivity.Contro
 		public Response serve(IHTTPSession session) {
 
 			// Calling the oneM2M Stimulator
-			oneM2MStimulator oneM2MTest = new oneM2MStimulator(session);
+			oneM2MStimulator oneM2MTest = new oneM2MStimulator(session, getApplicationContext());
 			oneM2MTest.startTesting();
 
 			return new NanoHTTPD.Response("Android Response");

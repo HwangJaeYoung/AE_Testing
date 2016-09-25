@@ -44,39 +44,53 @@ public class AE implements oneM2M {
         } catch (NanoHTTPD.ResponseException e) {
             e.printStackTrace();
         }
-    }
 
-    public void initAEHeader() {
         ACCEPT = header.get(KEY_HEADER_ACCEPT);
         X_M2M_Origin = header.get(KEY_HEADER_X_M2M_Origin);
         X_M2M_RI = header.get(KEY_HEADER_X_M2M_RI);
         Content_Type = header.get(KEY_HEADER_CONTENT_TYPE);
-    }
 
-    public void createAEBody() {
         if (NanoHTTPD.Method.PUT.equals(method) || NanoHTTPD.Method.POST.equals(method))
             AEBody = files.get("postData");
     }
 
+    @Override
     public String getUri() {
         return uri;
     }
 
+    @Override
     public String getX_M2M_RI() {
         return X_M2M_RI;
     }
 
+    @Override
     public String getACCEPT() {
         return ACCEPT;
     }
 
+    @Override
     public String getContent_Type() {
         return Content_Type;
     }
 
+    @Override
     public String getX_M2M_Origin() {
         return X_M2M_Origin;
     }
 
-    public String getAEBody() { return AEBody; }
+    @Override
+    public int getHeaderLength() {
+        int length = 0;
+
+        if(ACCEPT != null); length++; if(X_M2M_Origin != null); length++;
+        if(X_M2M_RI != null); length++; if(Content_Type != null) length++;
+
+        return length;
+    }
+
+    @Override
+    public String getOneM2MBody() {
+        return AEBody;
+    }
 }
