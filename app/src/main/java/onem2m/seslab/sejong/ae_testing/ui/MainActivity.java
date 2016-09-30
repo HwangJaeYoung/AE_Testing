@@ -15,14 +15,12 @@ import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.reuse.oneM2M.oneM2MStimulator;
+import onem2m.seslab.sejong.ae_testing.testing.oneM2MTester;
 
 public class MainActivity extends Activity implements ViewForMainActivity.Controller {
 
-	private static final int PORT = 8080; // Android server port
-
 	private ViewForMainActivity view;
-	private WebServer server;
-	private String ipAddress;
+	private oneM2MTester tester;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +28,11 @@ public class MainActivity extends Activity implements ViewForMainActivity.Contro
 		view = new ViewForMainActivity(getApplicationContext(), this);
 		setContentView(view.getRoot());
 
-		ipAddress = getLocalIpAddress();
-		view.setDeviceIPAddress(ipAddress, PORT);
-
-		server = new WebServer();
+		tester = new oneM2MTester(getApplicationContext());
+		view.setDeviceIPAddress(tester.getLocalIpAddress(), tester.getPortNumber());
 
 		try {
-			server.start();
+			tester.getWebServer().start();
 		} catch(IOException ioe) {
 			Log.w("Httpd", "The server could not start.");
 		}
@@ -48,55 +44,10 @@ public class MainActivity extends Activity implements ViewForMainActivity.Contro
 	@Override
 	public void onDestroy()  {
 		super.onDestroy();
-		if (server != null)
-			server.stop();
-	}
-
-	public String getLocalIpAddress() {
-		try {
-			for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-				NetworkInterface intf = en.nextElement();
-
-				for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-					InetAddress inetAddress = enumIpAddr.nextElement();
-
-					if(!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-						String ipAddr = inetAddress.getHostAddress();
-						return ipAddr;
-					}
-				}
-			}
-		} catch (SocketException ex) {
-			Log.d("Server", ex.toString());
-		}
-		return null;
+		if (tester.getWebServer() != null)
+			tester.getWebServer().stop();
 	}
 
 	@Override
 	public void getMobiusInformation() { }
-
-	private class WebServer extends NanoHTTPD {
-		public WebServer() {
-			super(PORT);
-		}
-
-		@Override
-		public Response serve(IHTTPSession session) {
-
-			Map<String, String> map = session.getHeaders();
-
-			Iterator<String> keys = map.keySet().iterator();
-
-			/* while( keys.hasNext() ){
-				String key = keys.next();
-				Log.i("Testing", "Key : " + key + ", " + "Value : " + map.get(key));
-			} */
-
-			// Calling the oneM2M Stimulator
-			oneM2MStimulator oneM2MTest = new oneM2MStimulator(session, getApplicationContext());
-			oneM2MTest.startTesting();
-
-			return new NanoHTTPD.Response("Android Response");
-		}
-	}
 }
