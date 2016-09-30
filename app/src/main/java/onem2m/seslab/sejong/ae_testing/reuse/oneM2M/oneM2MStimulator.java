@@ -17,8 +17,9 @@ import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
 import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.reuse.network.HttpRequester;
 import onem2m.seslab.sejong.ae_testing.reuse.network.oneM2MRequest;
+import onem2m.seslab.sejong.ae_testing.testing.oneM2MTester;
 
-public class oneM2MStimulator {
+public class oneM2MStimulator extends oneM2MTester.oneM2MOperation {
 
     private NanoHTTPD.IHTTPSession session;
     private Context context;
@@ -95,6 +96,31 @@ public class oneM2MStimulator {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void Create() {
+
+    }
+
+    @Override
+    public void Retrieve() {
+
+    }
+
+    @Override
+    public void Update() {
+
+    }
+
+    @Override
+    public void Delete() {
+
+    }
+
+    @Override
+    public void Notify() {
+
     }
 
     HttpRequester.NetworkResponseListenerXML XMLResponseListener = new HttpRequester.NetworkResponseListenerXML() {

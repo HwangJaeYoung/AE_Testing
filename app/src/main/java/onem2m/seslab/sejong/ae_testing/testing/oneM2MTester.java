@@ -23,6 +23,7 @@ public class oneM2MTester {
     private static final int PORT = 8080; // Android server port
     private WebServer server;
     private Context context;
+    private int testcaseNumber;
 
     public oneM2MTester(Context context) {
         this.context = context;
@@ -38,13 +39,31 @@ public class oneM2MTester {
         public Response serve(IHTTPSession session) {
 
             Map<String, String> map = session.getHeaders();
-
             Iterator<String> keys = map.keySet().iterator();
 
 			/* while( keys.hasNext() ){
 				String key = keys.next();
 				Log.i("Testing", "Key : " + key + ", " + "Value : " + map.get(key));
 			} */
+
+            testcaseNumber = Integer.parseInt(map.get("testcase"));
+
+            switch(testcaseNumber) {
+                case oneM2MTestcase.TESTCASE_AE_INITIAL_REGISTRATION_INITIAL :
+
+
+                    break;
+
+                case oneM2MTestcase.TESTCASE_AE_RE_REGISTRATION :
+
+                    break;
+
+                case 3 : // container
+                    break;
+
+                case 4 : // conentInstance
+                    break;
+            }
 
             return new NanoHTTPD.Response("Android Response");
         }
@@ -77,5 +96,13 @@ public class oneM2MTester {
 
     public int getPortNumber() {
         return PORT;
+    }
+
+    public static abstract class oneM2MOperation {
+        public abstract void Create();
+        public abstract void Retrieve();
+        public abstract void Update();
+        public abstract void Delete();
+        public abstract void Notify();
     }
 }
