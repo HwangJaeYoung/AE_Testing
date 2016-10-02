@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Blossom on 2016-10-02.
+ * Created by JaeYoung Hwang on 2016-10-02.
  */
 
 public class DummyDataForAE {

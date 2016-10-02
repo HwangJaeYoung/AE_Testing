@@ -7,7 +7,7 @@ import cz.msebera.android.httpclient.message.BasicHeader;
 import fi.iki.elonen.NanoHTTPD;
 
 /**
- * Created by Blossom on 2016-09-25.
+ * Created by JaeYoung Hwang on 2016-09-25.
  */
 
 public class RequestPrimitive {

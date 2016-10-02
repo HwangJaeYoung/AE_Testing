@@ -5,16 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
 
-import fi.iki.elonen.NanoHTTPD;
-import onem2m.seslab.sejong.ae_testing.reuse.oneM2M.oneM2MStimulator;
 import onem2m.seslab.sejong.ae_testing.testing.oneM2MTester;
 
 public class MainActivity extends Activity implements ViewForMainActivity.Controller {

@@ -5,16 +5,13 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.Iterator;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
-import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.domain.AE;
 import onem2m.seslab.sejong.ae_testing.domain.DummyDataForAE;
-import onem2m.seslab.sejong.ae_testing.domain.oneM2M;
 import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.reuse.network.HttpRequester;
 import onem2m.seslab.sejong.ae_testing.reuse.network.oneM2MRequest;

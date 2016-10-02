@@ -3,7 +3,6 @@ package onem2m.seslab.sejong.ae_testing.ui;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import onem2m.seslab.sejong.ae_testing.R;

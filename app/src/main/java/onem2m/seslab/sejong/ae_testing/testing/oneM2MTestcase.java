@@ -1,7 +1,7 @@
 package onem2m.seslab.sejong.ae_testing.testing;
 
 /**
- * Created by Blossom on 2016-09-30.
+ * Created by JaeYoung Hwang on 2016-09-30.
  */
 
 interface oneM2MTestcase {

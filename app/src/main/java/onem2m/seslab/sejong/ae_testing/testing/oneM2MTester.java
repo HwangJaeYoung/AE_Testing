@@ -15,7 +15,7 @@ import fi.iki.elonen.NanoHTTPD;
 import onem2m.seslab.sejong.ae_testing.reuse.oneM2M.oneM2MStimulator;
 
 /**
- * Created by Blossom on 2016-09-30.
+ * Created by JaeYoung Hwang on 2016-09-30.
  */
 
 public class oneM2MTester {
