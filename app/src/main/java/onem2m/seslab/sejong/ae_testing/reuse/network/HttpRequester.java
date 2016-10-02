@@ -60,7 +60,7 @@ public class HttpRequester {
             }
 
             Log.i("Testing", resource.getOneM2MBody());
-            getClient().post(context, requestPrimitive.getTargetAddress(), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
+            getClient().post(context, requestPrimitive.getTo(), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
         } else
             getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }
@@ -79,7 +79,7 @@ public class HttpRequester {
             }
 
             Log.i("Testing", resource.getOneM2MBody());
-            getClient().post(context, requestPrimitive.getTargetAddress(), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
+            getClient().post(context, requestPrimitive.getTo(), requestPrimitive.getHeaderList(), oneM2MBody, requestPrimitive.getContent_Type(), responseHandler);
         } else
             getClient().get(getAbsoluteUrl(url), params, responseHandler);
     }

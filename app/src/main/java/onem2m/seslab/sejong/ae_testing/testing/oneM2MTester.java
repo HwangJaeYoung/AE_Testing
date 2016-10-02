@@ -48,23 +48,23 @@ public class oneM2MTester {
 
             testcaseNumber = Integer.parseInt(map.get("testcase"));
 
+            oneM2MStimulator oneM2MTester = new oneM2MStimulator(context);
+
             switch(testcaseNumber) {
                 case oneM2MTestcase.TESTCASE_AE_INITIAL_REGISTRATION_INITIAL :
-
-
+                    oneM2MTester.Create();
                     break;
 
                 case oneM2MTestcase.TESTCASE_AE_RE_REGISTRATION :
-
+                    oneM2MTester.Create();
                     break;
 
-                case 3 : // container
+                case 3 :
                     break;
 
-                case 4 : // conentInstance
+                case 4 :
                     break;
             }
-
             return new NanoHTTPD.Response("Android Response");
         }
     }

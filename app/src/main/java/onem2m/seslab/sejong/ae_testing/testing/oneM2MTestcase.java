@@ -5,6 +5,9 @@ package onem2m.seslab.sejong.ae_testing.testing;
  */
 
 interface oneM2MTestcase {
+    /**** Testcase list ****/
     int TESTCASE_AE_INITIAL_REGISTRATION_INITIAL = 0;
     int TESTCASE_AE_RE_REGISTRATION = 1;
+
+    // Adding the other testcase...
 }

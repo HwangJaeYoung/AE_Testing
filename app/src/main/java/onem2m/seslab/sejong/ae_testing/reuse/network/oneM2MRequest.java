@@ -16,21 +16,21 @@ public class oneM2MRequest {
 
 	public oneM2MRequest( ) { }
 
-	public void JSON(Context context, final HttpRequester.NetworkResponseListenerJSON aNetworkListener, NanoHTTPD.Method method, RequestPrimitive requestPrimitive, oneM2M resource) throws JSONException {
+	public void JSON(Context context, final HttpRequester.NetworkResponseListenerJSON aNetworkListener, String method, RequestPrimitive requestPrimitive, oneM2M resource) throws JSONException {
 		RequestParams requestParams = new RequestParams( );
 
-		if(NanoHTTPD.Method.PUT.equals(method) || NanoHTTPD.Method.POST.equals(method))
+		if(method.equals("POST") || method.equals("PUT"))
 			HttpRequester.postJSON(context, URL_BASE, requestParams, new JsonResponseHandler(aNetworkListener), requestPrimitive, resource);
-		else if(NanoHTTPD.Method.PUT.equals(method) || NanoHTTPD.Method.POST.equals(method))
+		else if(method.equals("GET") || method.equals("DELETE"))
 			HttpRequester.getJSON(context, URL_BASE, requestParams, new JsonResponseHandler(aNetworkListener), requestPrimitive, resource);
 	}
 
-	public void XML(Context context, final HttpRequester.NetworkResponseListenerXML aNetworkListener, NanoHTTPD.Method method, RequestPrimitive requestPrimitive, oneM2M resource) {
+	public void XML(Context context, final HttpRequester.NetworkResponseListenerXML aNetworkListener, String method, RequestPrimitive requestPrimitive, oneM2M resource) {
 		RequestParams requestParams = new RequestParams( );
 
-		if(NanoHTTPD.Method.PUT.equals(method) || NanoHTTPD.Method.POST.equals(method))
+		if(method.equals("POST") || method.equals("PUT"))
 			HttpRequester.postXML(context, URL_BASE, requestParams, new XMLResponseHandler(aNetworkListener), requestPrimitive, resource);
-		else if(NanoHTTPD.Method.PUT.equals(method) || NanoHTTPD.Method.POST.equals(method))
+		else if(method.equals("GET") || method.equals("DELETE"))
 			HttpRequester.getXML(context, URL_BASE, requestParams, new XMLResponseHandler(aNetworkListener), requestPrimitive, resource);
 	}
 }
