@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
-import onem2m.seslab.sejong.ae_testing.reuse.oneM2M.oneM2MStimulator;
 
 /**
  * Created by JaeYoung Hwang on 2016-09-30.
@@ -48,21 +47,18 @@ public class oneM2MTester {
 
             testcaseNumber = Integer.parseInt(map.get("testcase"));
 
-            oneM2MStimulator oneM2MTester = new oneM2MStimulator(context);
+            oneM2MStimulator oneM2MStimulator = new oneM2MStimulator( );
 
             switch(testcaseNumber) {
-                case oneM2MTestcase.TESTCASE_AE_INITIAL_REGISTRATION_INITIAL :
-                    oneM2MTester.Create();
+                case oneM2MTestcase.TESTCASE_AE_INITIAL_REGISTRATION :
+                case oneM2MTestcase.TESTCASE_AE_RE_REGISTRATION :
+                    oneM2MStimulator.Create();
                     break;
 
-                case oneM2MTestcase.TESTCASE_AE_RE_REGISTRATION :
-                    oneM2MTester.Create();
+                case 2 :
                     break;
 
                 case 3 :
-                    break;
-
-                case 4 :
                     break;
             }
             return new NanoHTTPD.Response("Android Response");
@@ -98,11 +94,11 @@ public class oneM2MTester {
         return PORT;
     }
 
-    public static abstract class oneM2MOperation {
-        public abstract void Create();
-        public abstract void Retrieve();
-        public abstract void Update();
-        public abstract void Delete();
-        public abstract void Notify();
+    interface oneM2MOperation {
+        void Create();
+        void Retrieve();
+        void Update();
+        void Delete();
+        void Notify();
     }
 }

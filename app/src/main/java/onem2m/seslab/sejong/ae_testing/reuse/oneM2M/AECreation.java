@@ -15,13 +15,19 @@ import onem2m.seslab.sejong.ae_testing.domain.DummyDataForAE;
 import onem2m.seslab.sejong.ae_testing.domain.RequestPrimitive;
 import onem2m.seslab.sejong.ae_testing.reuse.network.HttpRequester;
 import onem2m.seslab.sejong.ae_testing.reuse.network.oneM2MRequest;
-import onem2m.seslab.sejong.ae_testing.testing.oneM2MTester;
+import onem2m.seslab.sejong.ae_testing.ui.MainActivity;
 
-public class oneM2MStimulator extends oneM2MTester.oneM2MOperation {
+/**
+ * Created by Blossom on 2016-10-04.
+ */
+
+public class AECreation {
 
     private Context context;
 
-    public oneM2MStimulator(Context context) { this.context = context; }
+    public  AECreation() {
+        this.context = MainActivity.getAppContext();
+    }
 
     // AE send the specific header value and body to CSE
     public void Mca( ) {
@@ -93,29 +99,4 @@ public class oneM2MStimulator extends oneM2MTester.oneM2MOperation {
             Log.i("Testing", jsonObject.toString());
         }
     };
-
-    @Override
-    public void Create() {
-        Mca( );
-    }
-
-    @Override
-    public void Retrieve() {
-
-    }
-
-    @Override
-    public void Update() {
-
-    }
-
-    @Override
-    public void Delete() {
-
-    }
-
-    @Override
-    public void Notify() {
-
-    }
 }
